@@ -1,15 +1,33 @@
 #include "libbremsweg.h"
-
+/**
+ * @brief Bremsweg::Bremsweg
+ *        Default constructor for the class Bremsweg
+ * @param none
+ * @return none
+ */
 Bremsweg::Bremsweg()
 :untergrundfaktor(1.0), geschwindigkeit(0.0), bremsweg(0.0), gefahrenbremsung (1), fahrzeug("PkW")
 {
 }
 
-Bremsweg::Bremsweg(double untergrundfaktor, double geschwindigkeit, int gefahrenbremsung, std::__cxx11::string fahrzeug)
+/**
+ * @brief Bremsweg::Bremsweg
+ *        Constructor used in the Testprogramm
+ * @param untergrundfaktor (double); Value depending on the underground
+ * @param geschwindigkeit (double);  Speed of the vehicle
+ * @param gefahrenbremsung (int); Value of the emergency brake
+ * @param fahrzeug (string); Type of vehicle
+ */
+Bremsweg::Bremsweg(double untergrundfaktor, double geschwindigkeit, int gefahrenbremsung, std::string fahrzeug)
     :untergrundfaktor(untergrundfaktor), geschwindigkeit(geschwindigkeit), gefahrenbremsung(gefahrenbremsung),fahrzeug(fahrzeug)
 {
 }
 
+/**
+ * @brief Bremsweg::GeschwindigkeitSetzen
+ *        Changes the speed of the vehicle
+ * @param neueGeschwindigkeit (double); New speed of the vehicle
+ */
 void Bremsweg::GeschwindigkeitSetzen(double neueGeschwindigkeit)
 {
     if (geschwindigkeit != neueGeschwindigkeit)
@@ -19,6 +37,11 @@ void Bremsweg::GeschwindigkeitSetzen(double neueGeschwindigkeit)
     }
 }
 
+/**
+ * @brief Bremsweg::UntergrundfaktorSetzen
+ *        Changes the factor of the underground
+ * @param neuerUntergrundfaktor (double); Value of the new underground
+ */
 void Bremsweg::UntergrundfaktorSetzen(double neuerUntergrundfaktor)
 {
     if (untergrundfaktor != neuerUntergrundfaktor)
@@ -28,6 +51,11 @@ void Bremsweg::UntergrundfaktorSetzen(double neuerUntergrundfaktor)
     }
 }
 
+/**
+ * @brief Bremsweg::GefahrenbremsungSetzen
+ *        Changes the state of the emergency brake
+ * @param Gefahrenbremsung (int); Changes state of the emergency brake
+ */
 void Bremsweg::GefahrenbremsungSetzen(int Gefahrenbremsung)
 {
     if (gefahrenbremsung != Gefahrenbremsung)
@@ -37,6 +65,11 @@ void Bremsweg::GefahrenbremsungSetzen(int Gefahrenbremsung)
     }
 }
 
+/**
+ * @brief Bremsweg::FahrzeugSetzen
+ *        Changes the type of vehicle
+ * @param neuesFahrzeug (string); New type of vehicle
+ */
 void Bremsweg::FahrzeugSetzen(std::string neuesFahrzeug)
 {
     if (fahrzeug != neuesFahrzeug)
@@ -46,9 +79,13 @@ void Bremsweg::FahrzeugSetzen(std::string neuesFahrzeug)
     }
 }
 
+/**
+ * @brief Bremsweg::BremswegBerechnen
+ *        Calculates the braking distance of the vehicle, depending on the user-choices currently saved in the class
+ */
 void Bremsweg::BremswegBerechnen()
 {
-    double Normfallbeschleunigung = 9.80665;
+    double NORMFALLBESCHLEUNIGUNG = 9.80665;
     double Haftreibungszahl = 0.0;
     double bremsbeschleunigung = 0.0;
     double bremszeit = 0.0;
@@ -56,7 +93,7 @@ void Bremsweg::BremswegBerechnen()
     if (fahrzeug == "PkW")
     {
         Haftreibungszahl = 0.8;
-        bremsbeschleunigung = Haftreibungszahl * Normfallbeschleunigung;
+        bremsbeschleunigung = Haftreibungszahl * NORMFALLBESCHLEUNIGUNG;
         bremszeit = (geschwindigkeit/3.6)/bremsbeschleunigung;
         if (gefahrenbremsung == 2)
         {
@@ -64,7 +101,7 @@ void Bremsweg::BremswegBerechnen()
         }
         else
         {
-            bremsweg = (round(((reaktionsweg+0.5*bremsbeschleunigung*bremszeit*bremszeit)*untergrundfaktor*1.5)*10))/10;
+            bremsweg = (round((reaktionsweg+0.5*bremsbeschleunigung*bremszeit*bremszeit)*untergrundfaktor*15))/10;
         }
     }
     else if (fahrzeug == "Panzer")
@@ -83,6 +120,11 @@ void Bremsweg::BremswegBerechnen()
     }
 }
 
+/**
+ * @brief Bremsweg::BremswegAbfragen
+ *        Returns the braking distance
+ * @return bremsweg (double); calculated braking distance
+ */
 double Bremsweg::BremswegAbfragen() const
 {
     return bremsweg;
